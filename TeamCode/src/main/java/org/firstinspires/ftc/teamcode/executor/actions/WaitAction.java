@@ -1,32 +1,29 @@
 package org.firstinspires.ftc.teamcode.executor.actions;
 
+import org.firstinspires.ftc.teamcode.util.Timer;
+
 public class WaitAction extends Action {
-    private int waitMilliseconds = 0;
+    private int waitTime;
     private Timer timer;
-    private int state = -1;
-    public WaitAction(int waitMilliseconds) {
-        this.waitMilliseconds = waitMilliseconds;
+    private int state;
+
+    public WaitAction(int waitTime) {
+        this.waitTime = waitTime;
         timer = new Timer();
+        state = -1;
     }
-
-    public void setState(int x) {
-        state = x;
-    }
-
     @Override
     public void start() {
-        timer.resetTimer();
-        setState(0);
+        timer.reset();
+        state = 0;
     }
 
     @Override
     public void run() {
-        switch (state) {
-            case 0:
-                if (timer.getElapsedTime() >= waitMilliseconds) {
-                    setState(-1);
-                }
-                break;
+        if (state == 0) {
+            if (timer.getTime() > waitTime) {
+                state = -1;
+            }
         }
     }
     @Override
