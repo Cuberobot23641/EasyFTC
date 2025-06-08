@@ -24,7 +24,7 @@ public class PDFLController {
         prevErrorVal = error;
         timer.reset();
 
-        double total = kP * error + kD * dError + kF * feedForward.calculate(target) + kL * Math.signum(error);
+        double total = kP * error + kD * dError + kF * feedForward.calculate(current) + kL * Math.signum(error);
         if (Math.abs(total) > maxPower) {
             return Math.signum(total) * maxPower;
         }

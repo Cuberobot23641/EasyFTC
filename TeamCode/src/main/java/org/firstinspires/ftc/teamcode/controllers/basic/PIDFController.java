@@ -26,7 +26,7 @@ public class PIDFController {
         totalError += period * error;
         totalError = totalError < minIntegral ? minIntegral : Math.min(maxIntegral, totalError);
 
-        double total = kP * error + kD * dError + kF * feedForward.calculate(target) + kI * totalError;
+        double total = kP * error + kD * dError + kF * feedForward.calculate(current) + kI * totalError;
         if (Math.abs(total) > maxPower) {
             return Math.signum(total) * maxPower;
         }

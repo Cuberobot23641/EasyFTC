@@ -5,31 +5,29 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import static org.firstinspires.ftc.teamcode.drivetrains.MecanumDriveConstants.*;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class MecanumDrive {
     private DcMotorEx fl, bl, fr, br;
     private HardwareMap hardwareMap;
-    private double powerScaler = powerMultiplier;
+    private double powerScaler = 1;
     private boolean robotCentric = true;
     private IMU imu;
-
-    // somehow add movement vectors? idk
-    public MecanumDrive(HardwareMap hardwareMap, MecanumDriveConstants driveConstants, boolean robotCentric) {
+    public MecanumDrive(HardwareMap hardwareMap, boolean robotCentric) {
         this.hardwareMap = hardwareMap;
         this.robotCentric = robotCentric;
-        fl = this.hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        bl = this.hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        fr = this.hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
-        br = this.hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        fl.setDirection(leftFrontMotorDirection);
-        bl.setDirection(leftRearMotorDirection);
-        fr.setDirection(rightFrontMotorDirection);
-        br.setDirection(rightRearMotorDirection);
+        powerScaler = DrivetrainConstants.powerMultiplier;
+        fl = this.hardwareMap.get(DcMotorEx.class, DrivetrainConstants.leftFrontMotorName);
+        bl = this.hardwareMap.get(DcMotorEx.class, DrivetrainConstants.leftRearMotorName);
+        fr = this.hardwareMap.get(DcMotorEx.class, DrivetrainConstants.rightFrontMotorName);
+        br = this.hardwareMap.get(DcMotorEx.class, DrivetrainConstants.rightRearMotorName);
+        fl.setDirection(DrivetrainConstants.leftFrontMotorDirection);
+        bl.setDirection(DrivetrainConstants.leftRearMotorDirection);
+        fr.setDirection(DrivetrainConstants.rightFrontMotorDirection);
+        br.setDirection(DrivetrainConstants.rightRearMotorDirection);
 
-        if (useBreakMode) {
+        if (DrivetrainConstants.useBreakMode) {
             fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -40,12 +38,12 @@ public class MecanumDrive {
             fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
-        imu = hardwareMap.get(IMU.class, imuName);
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(logoDirection, usbDirection));
+        imu = hardwareMap.get(IMU.class, DrivetrainConstants.imuName);
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(DrivetrainConstants.logoDirection, DrivetrainConstants.usbDirection));
         imu.initialize(parameters);
     }
 
-    public void loop(double y, double x, double rx) {
+    public void update(double y, double x, double rx) {
         double frontLeftPower;
         double backLeftPower;
         double frontRightPower;

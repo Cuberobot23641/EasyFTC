@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.executor.actions;
 
-public abstract class Action {
+public class Action {
     private Runnable runnable;
     private int state;
     public Action(Runnable runnable) {

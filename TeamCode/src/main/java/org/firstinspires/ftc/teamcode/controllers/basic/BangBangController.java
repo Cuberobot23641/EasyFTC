@@ -2,21 +2,18 @@ package org.firstinspires.ftc.teamcode.controllers.basic;
 
 public class BangBangController {
     private double maxPower;
-    private double errorThreshold;
     private double target;
     public BangBangController() {
-        this(1, 0);
+        this(1);
     }
 
-    public BangBangController(double maxPower, double errorThreshold) {
+    public BangBangController(double maxPower) {
         this.maxPower = maxPower;
-        this.errorThreshold = errorThreshold;
     }
 
-    public double calculate(double current, double t) {
-        target = t;
-        if (Math.abs(target - current) > errorThreshold) {
-            return Math.signum(target - current) * maxPower;
+    public double calculate(double current) {
+        if (current < target) {
+            return maxPower;
         }
         return 0.0;
     }
@@ -33,15 +30,7 @@ public class BangBangController {
         maxPower = x;
     }
 
-    public void setErrorThreshold(double x) {
-        errorThreshold = x;
-    }
-
     public double getMaxPower() {
         return maxPower;
-    }
-
-    public double getErrorThreshold() {
-        return errorThreshold;
     }
 }
